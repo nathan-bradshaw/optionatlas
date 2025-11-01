@@ -1,0 +1,27 @@
+# Java / Spring
+*.class
+*.jar
+*.war
+*.log
+build/
+.gradle/
+out/
+target/
+
+# Node / React
+node_modules/
+dist/
+.vite/
+*.log
+.env
+.env.*
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.iml

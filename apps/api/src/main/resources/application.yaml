@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: OptionAtlas API
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/optionatlas
+    username: optionatlas
+    password: optionatlas
+
+  jpa:
+    hibernate:
+      ddl-auto: none # manage schema with flyway later
+    properties:
+      hibernate:
+        format_sql: true
+
+    flyway:
+      enabled: false # turn on later when adding migrations
+      locations: classpath:db/migrations
+
+server:
+  port: 8080
