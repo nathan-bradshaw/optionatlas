@@ -15,8 +15,13 @@ spring:
         format_sql: true
 
     flyway:
-      enabled: false # turn on later when adding migrations
+      enabled: true
       locations: classpath:db/migrations
 
 server:
   port: 8080
+
+jwt:
+  issuer: optionatlas
+  accessTtlSeconds: 3600 # 1 hour
+  secret: 'this-is-a-long-random-secret-string-at-least-32-bytes'
