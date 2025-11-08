@@ -1,6 +1,8 @@
 package com.optionatlas.api.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,5 +49,14 @@ public class JwtService {
             .parseClaimsJws(jwt)
             .getBody()
             .getSubject();
+    }
+
+    public Claims parseClaims(String jwt) {
+        return Jwts.parserBuilder()
+            .setSigningKey(key)
+            .requireIssuer(issuer)
+            .build()
+            .parseClaimsJws(jwt)
+            .getBody();
     }
 }
