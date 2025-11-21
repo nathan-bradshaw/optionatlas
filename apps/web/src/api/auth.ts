@@ -12,21 +12,19 @@ export type LoginResponse = {
 export async function login(body: AuthBody) {
   try {
     const res = await api.post<LoginResponse>('auth/login', body)
-    console.log('Login successful:', res.data)
+    console.log('Login successful: ', res.data)
     return res.data
   } catch (error) {
-    console.error('Login failed:', error)
-    throw error
+    console.error('Login failed: ', error)
   }
 }
 
 export async function register(body: AuthBody) {
   try {
     const res = await api.post('auth/register', body)
-    console.log('Registration successful:', res.data)
+    console.log('Registration successful: ', res.data)
     return res.data
   } catch (error) {
-    console.error('Registration failed:', error)
-    throw error
+    console.error('Registration failed: ', error)
   }
 }
