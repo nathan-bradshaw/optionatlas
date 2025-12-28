@@ -7,27 +7,45 @@ export type Decision = {
   createdAt?: string
 }
 
-export type createDecisionBody = {
+export type CreateDecisionBody = {
   title: string
   description?: string
 }
 
-export async function getDecisions() {
-  try {
-    const res = await api.get<Decision[]>('/api/decisions')
-    console.log('Fetched decisions: ', res.data)
-    return res.data
-  } catch (error) {
-    console.error('Failed to fetch decisions: ', error)
-  }
+export type Factor = {
+  id: string
+  decisionId: string
+  type: 'PRO' | 'CON'
+  text: string
+  weight: number
+  createdAt?: string
 }
 
-export async function createDecision(body: createDecisionBody) {
-  try {
-    const res = await api.post<Decision>('/api/decisions', body)
-    console.log('Created decision: ', res.data)
-    return res.data
-  } catch (error) {
-    console.error('Failed to create decision: ', error)
-  }
+export type CreateFactorBody = {
+  type: 'PRO' | 'CON'
+  text: string
+  weight: number
+}
+
+export async function getDecisions() {
+  const res = await api.get<Decision[]>('/api/decisions')
+  return res.data
+}
+
+export async function createDecision(body: CreateDecisionBody) {
+  const res = await api.post<Decision>('/api/decisions', body)
+  return res.data
+}
+
+export async function getFactors(decisionId: string) {
+  const res = await api.get<Factor[]>(`/api/decisions/${decisionId}/factors`)
+  return res.data
+}
+
+export async function createFactor(decisionId: string, body: CreateFactorBody) {
+  const res = await api.post<Factor>(
+    `/api/decisions/${decisionId}/factors`,
+    body,
+  )
+  return res.data
 }

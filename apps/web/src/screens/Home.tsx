@@ -1,15 +1,17 @@
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 import { getDecisions, createDecision, type Decision } from '@/api/decisions'
 import { useState } from 'react'
+import DecisionDetails from '@/screens/DecisionDetails'
 
 export default function Home() {
   const qc = useQueryClient()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
+  const [selected, setSelected] = useState<Decision | null>(null)
 
   const decisionsQuery = useQuery({
     queryKey: ['decisions'],
-    queryFn: getDecisions,
+    queryFn: getDecisions
   })
 
   const createMutation = useMutation({
@@ -19,7 +21,7 @@ export default function Home() {
       setTitle('')
       setDescription('')
       qc.invalidateQueries({ queryKey: ['decisions'] })
-    },
+    }
   })
 
   function handleSubmit(e: React.FormEvent) {
@@ -27,13 +29,19 @@ export default function Home() {
     if (!title.trim()) return
     createMutation.mutate({
       title: title.trim(),
-      description: description.trim() || undefined,
+      description: description.trim() || undefined
     })
   }
 
   const isLoading = decisionsQuery.isLoading
   const isCreating = createMutation.isPending
   const decisions = decisionsQuery.data || []
+
+  if (selected) {
+    return (
+      <DecisionDetails decision={selected} onBack={() => setSelected(null)} />
+    )
+  }
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex">
@@ -102,6 +110,7 @@ export default function Home() {
             {decisions.map((d: Decision) => (
               <article
                 key={d.id}
+                onClick={() => setSelected(d)}
                 className="border border-slate-800 rounded-xl px-4 py-3 bg-slate-900/60 hover:border-sky-500/60 transition-colors"
               >
                 <h3 className="text-sm font-medium">{d.title}</h3>
